@@ -6,3 +6,5 @@
  */
 
 rootProject.name = "SuperCalculator"
+
+include("Calculator")
