@@ -8,3 +8,4 @@
 rootProject.name = "SuperCalculator"
 
 include("Calculator")
+include("CalculatorTest")
