@@ -7,7 +7,7 @@
 
 plugins {
 	// Apply the application plugin to add support for building a CLI application in Java.
-	java
+	id("java")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
