@@ -125,6 +125,10 @@ public class Calculator {
 		operations.put(name, operation);
 	}
 
+	public String[] getOperationsNames() {
+		return operations.keySet().toArray(String[]::new);
+	}
+
 	public Map<String, Operation> getOperations() {
 		return new HashMap<>(this.operations);
 	}

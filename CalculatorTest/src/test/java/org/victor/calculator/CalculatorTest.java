@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.victor.calculator.exceptions.OperationNotFoundException;
 
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,5 +59,24 @@ class CalculatorTest {
 		calculator.loadOperations();
 
 		assertEquals("1.1", calculator.execute("plus", "1", "0.1"));
+	}
+
+	@Test
+	void testGetName() {
+		Calculator calculator = new Calculator();
+		calculator.setOperationsPath("../lib/SuperCalculator/operations");
+		calculator.loadOperations();
+
+		String[] names = calculator.getOperationsNames();
+
+		assertNotNull(names);
+		assertTrue(names.length >= 4);
+
+		List<String> list = Arrays.asList(names);
+
+		assertTrue(list.contains("plus"));
+		assertTrue(list.contains("minus"));
+		assertTrue(list.contains("multi"));
+		assertTrue(list.contains("divide"));
 	}
 }
