@@ -11,6 +11,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Calculator" />
             <option value="$PROJECT_DIR$/CalculatorTest" />
+            <option value="$PROJECT_DIR$/operations" />
+            <option value="$PROJECT_DIR$/operations/divide" />
+            <option value="$PROJECT_DIR$/operations/minus" />
+            <option value="$PROJECT_DIR$/operations/multi" />
+            <option value="$PROJECT_DIR$/operations/plus" />
           </set>
         </option>
       </GradleProjectSettings>
