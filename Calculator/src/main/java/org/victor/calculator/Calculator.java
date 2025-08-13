@@ -39,9 +39,6 @@ public class Calculator {
 
 	private final HashMap<String, Operation> operations = new HashMap<>();
 
-	Calculator() {
-	}
-
 	public void loadOperations() {
 		File dir = operationsPath.toFile();
 		if (!dir.exists()) {
