@@ -1,0 +1,34 @@
+package org.victor.calculator.controllers;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.victor.calculator.operations.OperationRequestBody;
+import org.victor.calculator.operations.OperationResponse;
+import org.victor.calculator.services.CalcService;
+
+@RestController
+@RequestMapping("/")
+class CalcController {
+
+	private final CalcService service;
+
+	CalcController(CalcService service) {
+		this.service = service;
+	}
+
+	@GetMapping("/calc")
+	public ResponseEntity<String[]> getOperationsNames() {
+		return ResponseEntity.ok(service.getOperations());
+	}
+
+	@PostMapping("/calc/execute")
+	public ResponseEntity<OperationResponse> execute(
+					@RequestBody(required = false) OperationRequestBody operation) {
+		String result = service.execute(operation.getOperation(),
+						operation.getA(),
+						operation.getB());
+		OperationResponse response = new OperationResponse();
+		response.setResult(result);
+		return ResponseEntity.ok(response);
+	}
+}

@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: Calculator
+
+operations:
+  path: ../lib/SuperCalculator/operations
