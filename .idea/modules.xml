@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/backend/SuperCalculator.backend.test.iml" filepath="$PROJECT_DIR$/.idea/modules/backend/SuperCalculator.backend.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/operations/plus/SuperCalculator.operations.plus.main.iml" filepath="$PROJECT_DIR$/.idea/modules/operations/plus/SuperCalculator.operations.plus.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/operations/plus/SuperCalculator.operations.plus.test.iml" filepath="$PROJECT_DIR$/.idea/modules/operations/plus/SuperCalculator.operations.plus.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/frontend/frontend.iml" filepath="$PROJECT_DIR$/frontend/frontend.iml" />
     </modules>
   </component>
 </project>

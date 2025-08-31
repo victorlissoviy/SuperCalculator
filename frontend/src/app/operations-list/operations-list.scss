@@ -1,0 +1,25 @@
+.operations-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(56px, 1fr));
+  gap: 0.35rem;
+}
+
+.operations-list .btn.operation {
+  padding: 0.3rem 0.25rem;
+  min-height: 2rem;
+  font-size: 0.9rem;
+  border: 1px solid #d0d0d0;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+@media (max-width: 380px) {
+  .operations-list {
+    grid-template-columns: repeat(4, minmax(48px, 1fr));
+    gap: 0.3rem;
+  }
+  .operations-list .btn.operation {
+    min-height: 1.9rem;
+    font-size: 0.85rem;
+  }
+}

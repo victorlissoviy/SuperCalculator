@@ -1,0 +1,36 @@
+<h1 class="main-title">{{ title }}</h1>
+
+<div class="calculator" aria-label="Calculator">
+	<div class="section section-display"  aria-label="Display">
+		<input class="main-input display" type="text" [(ngModel)]="input"/>
+	</div>
+
+	<div class="section section-keys"  aria-label="Number pad and actions">
+		<div class="keys">
+			<!-- Row 1 -->
+			<button type="button" class="btn" (click)="press('7')">7</button>
+			<button type="button" class="btn" (click)="press('8')">8</button>
+			<button type="button" class="btn" (click)="press('9')">9</button>
+			<button type="button" class="btn action backspace" (click)="backspace()">⌫</button>
+
+			<!-- Row 2 -->
+			<button type="button" class="btn" (click)="press('4')">4</button>
+			<button type="button" class="btn" (click)="press('5')">5</button>
+			<button type="button" class="btn" (click)="press('6')">6</button>
+
+			<!-- Row 3 -->
+			<button type="button" class="btn" (click)="press('1')">1</button>
+			<button type="button" class="btn" (click)="press('2')">2</button>
+			<button type="button" class="btn" (click)="press('3')">3</button>
+			<button type="button" class="btn eq" (click)="equals()">=</button>
+
+			<button type="button" class="btn" (click)="press('0')">0</button>
+			<button type="button" class="btn" (click)="press('.')">.</button>
+			<button type="button" class="btn action clear" (click)="clear()">C</button>
+		</div>
+	</div>
+
+	<div class="section section-operations"  aria-label="Operations">
+		<app-operations-list (clickOperation)="selectOperation($event)"/>
+	</div>
+</div>
