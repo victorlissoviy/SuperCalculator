@@ -1,8 +1,12 @@
 <h1 class="main-title">{{ title }}</h1>
 
 <div class="calculator" aria-label="Calculator">
-	<div class="section section-display"  aria-label="Display">
-		<input class="main-input display" type="text" [(ngModel)]="input"/>
+	<div class="section section-display" aria-label="Display">
+		<input class="main-input display"
+		       type="text"
+		       [(ngModel)]="input"
+		       (input)="validInput($event)"
+		/>
 	</div>
 
 	<div class="section section-keys"  aria-label="Number pad and actions">

@@ -305,6 +305,23 @@ describe("App", () => {
 		expect(component.a).toBe("24");
 	});
 
+	it("filter input field with numbers", async () => {
+		let input = compiled.querySelector(".main-input") as HTMLInputElement;
+		expect(input.value).toBe("0");
 
+		input.value = "0a";
+
+		// after input, we need to dispatch event to update input
+
+		let inputEvent = new InputEvent("input", {data: "a"});
+		input.dispatchEvent(inputEvent);
+
+		fixture.detectChanges();
+
+		expect(input.value).toBe("0");
+	});
+
+	// in this code we need to add tests for many minus and point sing, but it
+	// for future :-)
 });
 

@@ -9,7 +9,7 @@ import { CalcApi } from "./services/calc-api";
 	imports: [
 		CommonModule,
 		FormsModule,
-		OperationsList,
+		OperationsList
 	],
 	templateUrl: "./app.html",
 	styleUrl: "./app.scss",
@@ -57,5 +57,50 @@ export class App {
 		this.operation = op;
 		this.a = this.input;
 		this.input = "0";
+	}
+
+	validInput(event: Event) {
+		const inputElement = event.target as HTMLInputElement;
+		let cleanedValue = inputElement.value.replace(/[^-.0-9]/g, "");
+		cleanedValue = this.clearMinus(cleanedValue);
+		cleanedValue = this.clearPoint(cleanedValue);
+
+		inputElement.value = cleanedValue;
+		this.input = cleanedValue;
+	}
+
+	/**
+	 * Clear minus sign from the string, only the on start minus sign is allowed
+	 *
+	 * @param value source string
+	 * @returns cleaned string
+	 * @private
+	 */
+	private clearMinus(value: string) {
+		let index = value.lastIndexOf("-");
+		while (index > 1) {
+			value = value.slice(0, index) + value.slice(index + 1);
+			index = value.lastIndexOf("-");
+		}
+		return value;
+	}
+
+	/**
+	 * Clear point from the string, only the first point is allowed
+	 *
+	 * @param value source string
+	 * @returns cleaned string
+	 * @private
+	 */
+	private clearPoint(value: string) {
+		let index = value.indexOf(".");
+		if (index !== -1) {
+			let lastIndex = value.lastIndexOf(".");
+			while (index !== lastIndex) {
+				value = value.slice(0, lastIndex) + value.slice(lastIndex + 1);
+				lastIndex = value.lastIndexOf(".");
+			}
+		}
+		return value;
 	}
 }
