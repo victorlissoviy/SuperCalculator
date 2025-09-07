@@ -79,4 +79,13 @@ class CalculatorTest {
 		assertTrue(list.contains("multi"));
 		assertTrue(list.contains("divide"));
 	}
+
+	@Test
+	void testDivideByZero() {
+		Calculator calculator = new Calculator();
+		calculator.setOperationsPath("../lib/SuperCalculator/operations");
+		calculator.loadOperations();
+
+		assertThrows(ArithmeticException.class, () -> calculator.execute("divide", "1", "0"));
+	}
 }

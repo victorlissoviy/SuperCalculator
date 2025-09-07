@@ -39,4 +39,12 @@ class CalcServiceTest {
 
 		verify(calculator, times(1)).execute("plus", "1", "2");
 	}
+
+	@Test
+	void testDivideByZero() {
+		when(calculator.execute("divide", "1", "0")).thenThrow(new ArithmeticException());
+
+		assertThrows(ArithmeticException.class, () -> service.execute("divide", "1", "0"));
+		verify(calculator, times(1)).execute("divide", "1", "0");
+	}
 }

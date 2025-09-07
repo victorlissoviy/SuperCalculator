@@ -12,7 +12,7 @@ import org.victor.calculator.operations.OperationResponse;
 import org.victor.calculator.services.CalcService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,4 +61,21 @@ class CalcControllerTest {
 						.value(response.getResult()));
 	}
 
+	@Test
+	void testDivideByZero() throws Exception {
+		when(service.execute("divide", "1", "0"))
+						.thenThrow(new ArithmeticException());
+
+		OperationRequestBody body = new OperationRequestBody();
+		body.setOperation("divide");
+		body.setA("1");
+		body.setB("0");
+
+		mockMvc.perform(post("/calc/execute")
+										.contentType(MediaType.APPLICATION_JSON)
+										.content(body.toString()))
+				.andExpect(status().isBadRequest());
+
+		verify(service, times(1)).execute("divide", "1", "0");
+	}
 }

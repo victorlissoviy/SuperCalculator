@@ -47,10 +47,16 @@ export class App {
 	}
 
 	equals(): void {
-		this.api.execute(this.operation, this.a, this.input).subscribe(response => {
-			this.input = response.result;
-			this.a = response.result;
-		});
+		this.api.execute(this.operation, this.a, this.input)
+			.subscribe({
+				next: response => {
+					this.input = response.result;
+					this.a = response.result;
+				},
+				error: error => {
+					alert(error.error);
+				}
+			});
 	}
 
 	selectOperation(op: string) {

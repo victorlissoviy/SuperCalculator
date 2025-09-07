@@ -31,4 +31,9 @@ class CalcController {
 		response.setResult(result);
 		return ResponseEntity.ok(response);
 	}
+
+	@ExceptionHandler(ArithmeticException.class)
+	public ResponseEntity<String> handleException(ArithmeticException ex) {
+		return ResponseEntity.badRequest().body(ex.getMessage());
+	}
 }
