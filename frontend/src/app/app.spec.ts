@@ -40,15 +40,15 @@ describe("App", () => {
 		httpMock.verify();
 	});
 
-	function getButton(innerText: string) {
+	function getButton(idText: string) {
 		const buttons = compiled.querySelectorAll(".btn");
 		for (let i = 0 ; i < buttons.length ; i++) {
 			const button = buttons[i] as HTMLButtonElement;
-			if (button.innerText === innerText) {
+			if (button.id === idText) {
 				return button;
 			}
 		}
-		throw new Error(`Button "${innerText}" not found`);
+		throw new Error(`Button "${idText}" not found`);
 	}
 
 	it("should create the app", () => {
@@ -357,6 +357,14 @@ describe("App", () => {
 		expect(component.operation).toBe("divide");
 		expect(component.a).toBe("1");
 		expect(component.input).toBe("0");
+	});
+
+	it("display ukrainian operation names", () => {
+		fixture.detectChanges();
+
+		const plusButton = getButton("plus");
+		expect(plusButton != null).toBe(true);
+		expect(plusButton.textContent).toBe(" + ");
 	});
 });
 

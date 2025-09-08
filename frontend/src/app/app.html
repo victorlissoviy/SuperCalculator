@@ -9,32 +9,34 @@
 		/>
 	</div>
 
-	<div class="section section-keys"  aria-label="Number pad and actions">
+	<div class="section section-keys" aria-label="Number pad and actions">
 		<div class="keys">
 			<!-- Row 1 -->
-			<button type="button" class="btn" (click)="press('7')">7</button>
-			<button type="button" class="btn" (click)="press('8')">8</button>
-			<button type="button" class="btn" (click)="press('9')">9</button>
+			<button type="button" class="btn" (click)="press('7')" id="7">7</button>
+			<button type="button" class="btn" (click)="press('8')" id="8">8</button>
+			<button type="button" class="btn" (click)="press('9')" id="9">9</button>
 			<button type="button" class="btn action backspace" (click)="backspace()">⌫</button>
 
 			<!-- Row 2 -->
-			<button type="button" class="btn" (click)="press('4')">4</button>
-			<button type="button" class="btn" (click)="press('5')">5</button>
-			<button type="button" class="btn" (click)="press('6')">6</button>
+			<button type="button" class="btn" (click)="press('4')" id="4">4</button>
+			<button type="button" class="btn" (click)="press('5')" id="5">5</button>
+			<button type="button" class="btn" (click)="press('6')" id="6">6</button>
 
 			<!-- Row 3 -->
-			<button type="button" class="btn" (click)="press('1')">1</button>
-			<button type="button" class="btn" (click)="press('2')">2</button>
-			<button type="button" class="btn" (click)="press('3')">3</button>
-			<button type="button" class="btn eq" (click)="equals()">=</button>
+			<button type="button" class="btn" (click)="press('1')" id="1">1</button>
+			<button type="button" class="btn" (click)="press('2')" id="2">2</button>
+			<button type="button" class="btn" (click)="press('3')" id="3">3</button>
+			<button type="button" class="btn eq" (click)="equals()" id="=">=</button>
 
-			<button type="button" class="btn" (click)="press('0')">0</button>
-			<button type="button" class="btn" (click)="press('.')">.</button>
-			<button type="button" class="btn action clear" (click)="clear()">C</button>
+			<button type="button" class="btn" (click)="press('0')" id="0">0</button>
+			<button type="button" class="btn" (click)="press('.')" id=".">.</button>
+			<button type="button" class="btn action clear" (click)="clear()"
+			        id="C">C
+			</button>
 		</div>
 	</div>
 
-	<div class="section section-operations"  aria-label="Operations">
+	<div class="section section-operations" aria-label="Operations">
 		<app-operations-list (clickOperation)="selectOperation($event)"/>
 	</div>
 </div>

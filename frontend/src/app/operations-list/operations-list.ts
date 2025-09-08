@@ -11,6 +11,12 @@ import { CalcApi } from "../services/calc-api";
 export class OperationsList implements OnInit {
 	operations: string[] = [];
 	@Output() clickOperation: EventEmitter<string> = new EventEmitter<string>();
+	translations: Record<string, string> = {
+		"plus": "+",
+		"minus": "-",
+		"multi": "*",
+		"divide": "/"
+	};
 
 	constructor(readonly api: CalcApi) {}
 
@@ -28,7 +34,7 @@ export class OperationsList implements OnInit {
 	onClick(event: MouseEvent) {
 		const button = event.target as HTMLButtonElement;
 
-		let value = button.innerText;
+		let value = button.id;
 		this.clickOperation.emit(value);
 	}
 }

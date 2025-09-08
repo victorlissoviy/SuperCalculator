@@ -1,7 +1,10 @@
 <div class="operations-list" aria-label="Operations">
 	@for (operation of operations; track operation) {
-		<button type="button" class="btn operation" (click)="onClick($event)" [attr.aria-label]="'Operation ' + operation">
-			{{ operation }}
+		<button type="button"
+		        class="btn operation"
+		        (click)="onClick($event)"
+		        id="{{operation}}">
+			{{ translations[operation] || operation }}
 		</button>
 	}
 </div>
