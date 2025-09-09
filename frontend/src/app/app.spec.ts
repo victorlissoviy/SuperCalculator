@@ -366,5 +366,14 @@ describe("App", () => {
 		expect(plusButton != null).toBe(true);
 		expect(plusButton.textContent).toBe(" + ");
 	});
+
+	it("should react to + key press", () => {
+		const event = new KeyboardEvent("keydown", {key: "+"});
+		window.dispatchEvent(event);
+
+		fixture.detectChanges();
+
+		expect(component.operation).toBe("plus");
+	});
 });
 

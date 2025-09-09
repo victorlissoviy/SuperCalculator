@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { OperationsList } from "./operations-list/operations-list";
@@ -108,5 +108,38 @@ export class App {
 			}
 		}
 		return value;
+	}
+
+	@HostListener("window:keydown", ["$event"])
+	onKeyDown(event: KeyboardEvent) {
+		if (/[\d.]/.test(event.key)) {
+			this.press(event.key);
+		}
+
+		/**
+		 * Operations keys that indicate mathematical operations
+		 */
+		let operations : Record<string, string> = {
+			"+": "plus",
+			"-": "minus",
+			"*": "multi",
+			"/": "divide"
+		};
+
+		if (Object.keys(operations).includes(event.key)) {
+			this.selectOperation(operations[event.key]);
+		}
+
+		if (event.key === "Enter") {
+			this.equals();
+		}
+
+		if (event.key === "Backspace") {
+			this.backspace();
+		}
+
+		if (event.key === "Escape" || event.key === "Delete") {
+			this.clear();
+		}
 	}
 }
