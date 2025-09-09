@@ -359,7 +359,7 @@ describe("App", () => {
 		expect(component.input).toBe("0");
 	});
 
-	it("display ukrainian operation names", () => {
+	it("display symbolic operation names", () => {
 		fixture.detectChanges();
 
 		const plusButton = getButton("plus");
