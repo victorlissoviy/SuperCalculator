@@ -20,22 +20,31 @@ export class App {
 	input: string = "0";
 	operation: string = "";
 	a: string = "0";
+	clearBeforeInput: boolean = false;
 
 	constructor(readonly api: CalcApi) {}
 
 	press(value: string): void {
 		if (this.input === "0" && /\d/.test(value)) {
 			this.input = value;
+			this.clearBeforeInput = false;
 			return;
 		}
 		if (value === "." && this.input.includes(".")) {
 			return;
+		}
+		if (this.clearBeforeInput) {
+			this.input = "";
+			this.clearBeforeInput = false;
 		}
 		this.input += value;
 	}
 
 	clear(): void {
 		this.input = "0";
+		this.operation = "";
+		this.a = "0";
+		this.clearBeforeInput = false;
 	}
 
 	backspace(): void {
@@ -47,11 +56,25 @@ export class App {
 	}
 
 	equals(): void {
+		function clearResult(result: string) {
+			if (result.includes(".")) {
+				while (result.endsWith("0")) {
+					result = result.slice(0, -1);
+				}
+				if (result.endsWith(".")) {
+					result = result.slice(0, -1);
+				}
+			}
+			return result;
+		}
+
 		this.api.execute(this.operation, this.a, this.input)
 			.subscribe({
 				next: response => {
-					this.input = response.result;
-					this.a = response.result;
+					let clearedResult = clearResult(response.result);
+					this.input = clearedResult;
+					this.a = clearedResult;
+					this.clearBeforeInput = true;
 				},
 				error: error => {
 					alert(error.error);
@@ -60,6 +83,10 @@ export class App {
 	}
 
 	selectOperation(op: string) {
+		if (this.operation !== "" && this.input !== "0" && this.a !== "0") {
+			this.equals();
+		}
+
 		this.operation = op;
 		this.a = this.input;
 		this.input = "0";
