@@ -439,5 +439,16 @@ describe("App", () => {
 		expect(component.a).toBe("42");
 		expect(component.input).toBe("42");
 	});
+
+	it("ignore enter f-keys", () => {
+		const event = new KeyboardEvent("keydown", {key: "F12"});
+		window.dispatchEvent(event);
+
+		fixture.detectChanges();
+
+		expect(component.operation).toBe("");
+		expect(component.a).toBe("0");
+		expect(component.input).toBe("0");
+	});
 });
 

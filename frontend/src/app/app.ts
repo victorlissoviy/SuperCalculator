@@ -150,7 +150,7 @@ export class App {
 
 	@HostListener("window:keydown", ["$event"])
 	onKeyDown(event: KeyboardEvent) {
-		if (/[\d.]/.test(event.key)) {
+		if (/^[\d.]/.test(event.key)) {
 			this.press(event.key);
 		}
 
