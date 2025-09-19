@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.victor"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 val mockitoAgent = configurations.create("mockitoAgent")
 
