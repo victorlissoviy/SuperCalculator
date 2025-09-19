@@ -30,11 +30,16 @@ export class App {
 			this.clearBeforeInput = false;
 			return;
 		}
-		if (value === "." && this.input.includes(".")) {
+		if (value === "." && this.input.includes(".")
+		  && !this.clearBeforeInput) {
 			return;
 		}
 		if (this.clearBeforeInput) {
-			this.input = "";
+			if (value === ".") {
+				this.input = "0";
+			} else {
+				this.input = "";
+			}
 			this.clearBeforeInput = false;
 		}
 		this.input += value;
@@ -95,7 +100,7 @@ export class App {
 
 		this.operation = op;
 		this.a = this.input;
-		this.input = "0";
+		this.clearBeforeInput = true;
 	}
 
 	validInput(event: Event) {

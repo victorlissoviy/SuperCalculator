@@ -149,7 +149,16 @@ describe("App", () => {
 		pointButton.click();
 		oneButton.click();
 		plusButton.click();
+
+		expect(component.operation).toBe("plus");
+		expect(component.a).toBe("0.1");
+		expect(component.input).toBe("0.1");
+
 		pointButton.click();
+
+		expect(component.input).toBe("0.");
+		fixture.detectChanges();
+
 		twoButton.click();
 		equalButton.click();
 
