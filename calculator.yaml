@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: calculator
+  labels:
+    app: calculator
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: calculator
+  namespace: calculator
+  labels:
+    app: calculator
+spec:
+  limits:
+    - type: Container
+      defaultRequest:
+        ephemeral-storage: 1Gi
+        cpu: "0.1"
+        memory: 100Mi
+      default:
+        ephemeral-storage: 10Gi
+        cpu: "1.5"
+        memory: 500Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend
+  namespace: calculator
+  labels:
+    role: backend
+    app: calculator
+spec:
+  automountServiceAccountToken: false
+  nodeName: old-hp
+  containers:
+    - name: backend
+      image: viktorlisovyi/calculator-backend:1.0
+      imagePullPolicy: Always
+      ports:
+        - name: backend
+          containerPort: 8080
+          protocol: TCP
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  namespace: calculator
+  labels:
+    role: frontend
+    app: calculator
+spec:
+  automountServiceAccountToken: false
+  nodeName: old-hp
+  containers:
+    - name: frontend
+      image: viktorlisovyi/calculator-frontend:1.0
+      imagePullPolicy: Always
+      ports:
+        - name: frontend
+          containerPort: 80
+          protocol: TCP
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: calculator
+  labels:
+    app: calculator
+spec:
+  type: NodePort
+  selector:
+    role: backend
+  ports:
+    - name: backend
+      port: 8080
+      targetPort: 8080
+      nodePort: 30499
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: calculator
+  labels:
+    app: calculator
+spec:
+  type: NodePort
+  selector:
+    role: frontend
+  ports:
+    - name: frontend
+      port: 80
+      targetPort: 80
+      nodePort: 31999
+      protocol: TCP
