@@ -56,6 +56,10 @@ export class App {
 	}
 
 	equals(): void {
+		if (this.operation === "" || this.a === "0") {
+			return;
+		}
+
 		function clearResult(result: string) {
 			if (result.includes(".")) {
 				while (result.endsWith("0")) {
@@ -78,8 +82,10 @@ export class App {
 				},
 				error: error => {
 					alert(error.error);
+					console.error(error);
 				}
 			});
+		this.operation = "";
 	}
 
 	selectOperation(op: string) {

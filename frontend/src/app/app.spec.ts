@@ -175,7 +175,7 @@ describe("App", () => {
 		const result = compiled.querySelector(".main-input") as HTMLInputElement;
 		expect(result.value).toBe("0.3");
 
-		expect(component.operation).toBe("plus");
+		expect(component.operation).toBe("");
 		expect(component.a).toBe("0.3");
 	});
 
@@ -211,7 +211,7 @@ describe("App", () => {
 
 		const result = compiled.querySelector(".main-input") as HTMLInputElement;
 		expect(result.value).toBe("3");
-		expect(component.operation).toBe("plus");
+		expect(component.operation).toBe("");
 		expect(component.a).toBe("3");
 
 		calcResponse = {
@@ -238,7 +238,7 @@ describe("App", () => {
 		await fixture.whenStable();
 
 		expect(result.value).toBe("2");
-		expect(component.operation).toBe("minus");
+		expect(component.operation).toBe("");
 		expect(component.a).toBe("2");
 	});
 
@@ -276,7 +276,7 @@ describe("App", () => {
 
 		const result = compiled.querySelector(".main-input") as HTMLInputElement;
 		expect(result.value).toBe("12");
-		expect(component.operation).toBe("plus");
+		expect(component.operation).toBe("");
 		expect(component.a).toBe("12");
 
 		equalButton.click();
@@ -284,25 +284,12 @@ describe("App", () => {
 		fixture.detectChanges();
 		await fixture.whenStable();
 
-		calcResponse = {
-			result: "24"
-		};
-
-		req = httpMock.expectOne(baseUrl + "/calc/execute");
-		expect(req.request.method).toBe("POST");
-		expect(req.request.body).toEqual({
-			operation: "plus",
-			a: "12",
-			b: "12"
-		});
-		req.flush(calcResponse);
-
 		fixture.detectChanges();
 		await fixture.whenStable();
 
-		expect(result.value).toBe("24");
-		expect(component.operation).toBe("plus");
-		expect(component.a).toBe("24");
+		expect(result.value).toBe("12");
+		expect(component.operation).toBe("");
+		expect(component.a).toBe("12");
 	});
 
 	it("filter input field with numbers", async () => {
@@ -354,7 +341,7 @@ describe("App", () => {
 		fixture.detectChanges();
 		await fixture.whenStable();
 
-		expect(component.operation).toBe("divide");
+		expect(component.operation).toBe("");
 		expect(component.a).toBe("1");
 		expect(component.input).toBe("0");
 	});
@@ -374,6 +361,74 @@ describe("App", () => {
 		fixture.detectChanges();
 
 		expect(component.operation).toBe("plus");
+	});
+
+	it("work as sipmle calculator", async () => {
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		const oneButton = getButton("1");
+		const twoButton = getButton("2");
+		const threeButton = getButton("3");
+		const plusButton = getButton("plus");
+		const equalButton = getButton("=");
+		const multiButton = getButton("multi");
+
+		oneButton.click();
+		twoButton.click();
+		plusButton.click();
+		twoButton.click();
+		equalButton.click();
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		let calcResponse: CalcResponse = {
+			result: "14"
+		};
+
+		let req = httpMock.expectOne(baseUrl + "/calc/execute");
+		expect(req.request.method).toBe("POST");
+		expect(req.request.body).toEqual({
+			operation: "plus",
+			a: "12",
+			b: "2"
+		});
+		req.flush(calcResponse);
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		expect(component.operation).toBe("");
+		expect(component.a).toBe("14");
+		expect(component.input).toBe("14");
+
+		multiButton.click();
+		threeButton.click();
+		equalButton.click();
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		calcResponse = {
+			result: "42"
+		};
+
+		req = httpMock.expectOne(baseUrl + "/calc/execute");
+		expect(req.request.method).toBe("POST");
+		expect(req.request.body).toEqual({
+			operation: "multi",
+			a: "14",
+			b: "3"
+		});
+		req.flush(calcResponse);
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		expect(component.operation).toBe("");
+		expect(component.a).toBe("42");
+		expect(component.input).toBe("42");
 	});
 });
 
