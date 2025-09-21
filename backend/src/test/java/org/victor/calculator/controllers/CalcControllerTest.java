@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.victor.calculator.exceptions.OperationNotFoundException;
 import org.victor.calculator.operations.OperationRequestBody;
 import org.victor.calculator.operations.OperationResponse;
 import org.victor.calculator.services.CalcService;
@@ -95,5 +96,26 @@ class CalcControllerTest {
 				.andExpect(status().isBadRequest());
 
 		verify(service, times(1)).execute("divide", "b", "a");
+	}
+
+	@Test
+	void testOperationNotFound() throws Exception {
+		when(service.execute("lala", "1", "2"))
+						.thenThrow(new OperationNotFoundException("Operation lala not found"));
+
+		OperationRequestBody body = new OperationRequestBody();
+		body.setOperation("lala");
+		body.setA("1");
+		body.setB("2");
+
+		mockMvc.perform(post("/calc/execute")
+										.contentType(MediaType.APPLICATION_JSON)
+										.content(body.toString()))
+						.andExpect(status().isBadRequest())
+						.andExpect(result ->
+										assertEquals("Operation lala not found",
+														result.getResponse().getContentAsString()));
+
+		verify(service, times(1)).execute("lala", "1", "2");
 	}
 }
