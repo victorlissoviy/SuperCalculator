@@ -21,6 +21,7 @@ export class App {
 	operation: string = "";
 	a: string = "0";
 	clearBeforeInput: boolean = false;
+	afterEnter: boolean = false;
 
 	constructor(readonly api: CalcApi) {}
 
@@ -31,18 +32,32 @@ export class App {
 			return;
 		}
 		if (value === "." && this.input.includes(".")
-		  && !this.clearBeforeInput) {
+			&& !this.clearBeforeInput) {
 			return;
 		}
 		if (this.clearBeforeInput) {
-			if (value === ".") {
-				this.input = "0";
-			} else {
-				this.input = "";
-			}
+			this.processPontValue(value);
+			this.processMinusValue(value);
 			this.clearBeforeInput = false;
 		}
 		this.input += value;
+		this.afterEnter = false;
+	}
+
+	private processPontValue(value: string) {
+		if (value === ".") {
+			this.input = "0";
+		} else {
+			this.input = "";
+		}
+	}
+
+	private processMinusValue(value: string) {
+		if (value === "-") {
+			if (this.input.startsWith("-")) {
+				this.input = this.input.slice(1);
+			}
+		}
 	}
 
 	clear(): void {
@@ -91,9 +106,15 @@ export class App {
 				}
 			});
 		this.operation = "";
+		this.afterEnter = true;
 	}
 
 	selectOperation(op: string) {
+		if (op === "-" && this.clearBeforeInput) {
+			this.press(op);
+			return;
+		}
+
 		if (this.operation !== "" && this.input !== "0" && this.a !== "0") {
 			this.equals();
 		}
@@ -101,6 +122,7 @@ export class App {
 		this.operation = op;
 		this.a = this.input;
 		this.clearBeforeInput = true;
+		this.afterEnter = false;
 	}
 
 	validInput(event: Event) {
@@ -154,18 +176,14 @@ export class App {
 			this.press(event.key);
 		}
 
-		/**
-		 * Operations keys that indicate mathematical operations
-		 */
-		let operations : Record<string, string> = {
-			"+": "plus",
-			"-": "minus",
-			"*": "multi",
-			"/": "divide"
-		};
+		let key = Operation[event.key];
 
-		if (Object.keys(operations).includes(event.key)) {
-			this.selectOperation(operations[event.key]);
+		if (key != null) {
+			if (key === "minus" && this.clearBeforeInput && !this.afterEnter) {
+				this.selectOperation("-");
+			} else {
+				this.selectOperation(key);
+			}
 		}
 
 		if (event.key === "Enter") {
@@ -181,3 +199,18 @@ export class App {
 		}
 	}
 }
+
+/**
+ * Operations keys that indicate mathematical operations
+ */
+const Operation: Record<string, string> = {
+	"plus": "+",
+	"minus": "-",
+	"multi": "*",
+	"divide": "/",
+
+	"+": "plus",
+	"-": "minus",
+	"*": "multi",
+	"/": "divide"
+};

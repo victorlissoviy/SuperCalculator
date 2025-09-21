@@ -450,5 +450,56 @@ describe("App", () => {
 		expect(component.a).toBe("0");
 		expect(component.input).toBe("0");
 	});
+
+	it("multiply minus number", async () => {
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		const fiveButton = getButton("5");
+		const multiButton = getButton("multi");
+		const equalButton = getButton("=");
+
+		fiveButton.click();
+		expect(component.input).toBe("5");
+
+		multiButton.click();
+		expect(component.input).toBe("5");
+		expect(component.operation).toBe("multi");
+
+		const minusEvent = new KeyboardEvent("keydown", {key: "-"});
+		window.dispatchEvent(minusEvent);
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		expect(component.input).toBe("-");
+		expect(component.operation).toBe("multi");
+
+		fiveButton.click();
+		expect(component.input).toBe("-5");
+		expect(component.operation).toBe("multi");
+
+		equalButton.click();
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		const calcResponse: CalcResponse = {
+			result: "-25"
+		}
+
+		let req = httpMock.expectOne(baseUrl + "/calc/execute");
+		expect(req.request.method).toBe("POST");
+		expect(req.request.body).toEqual({
+			operation: "multi",
+			a: "5",
+			b: "-5"
+		});
+		req.flush(calcResponse);
+
+		expect(component.operation).toBe("");
+		expect(component.a).toBe("-25");
+		expect(component.input).toBe("-25");
+	});
 });
 
