@@ -36,4 +36,9 @@ class CalcController {
 	public ResponseEntity<String> handleException(ArithmeticException ex) {
 		return ResponseEntity.badRequest().body(ex.getMessage());
 	}
+
+	@ExceptionHandler(NumberFormatException.class)
+	public ResponseEntity<String> handleException(NumberFormatException ex) {
+		return ResponseEntity.badRequest().body(ex.getMessage());
+	}
 }

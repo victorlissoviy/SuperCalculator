@@ -78,4 +78,22 @@ class CalcControllerTest {
 
 		verify(service, times(1)).execute("divide", "1", "0");
 	}
+
+	@Test
+	void testSymbolEnter() throws Exception {
+		when(service.execute("divide", "b", "a"))
+						.thenThrow(new NumberFormatException());
+
+		OperationRequestBody body = new OperationRequestBody();
+		body.setOperation("divide");
+		body.setA("b");
+		body.setB("a");
+
+		mockMvc.perform(post("/calc/execute")
+										.contentType(MediaType.APPLICATION_JSON)
+										.content(body.toString()))
+				.andExpect(status().isBadRequest());
+
+		verify(service, times(1)).execute("divide", "b", "a");
+	}
 }

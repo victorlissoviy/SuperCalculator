@@ -88,4 +88,14 @@ class CalculatorTest {
 
 		assertThrows(ArithmeticException.class, () -> calculator.execute("divide", "1", "0"));
 	}
+
+	@Test
+	void testSymbolEnter() {
+		Calculator calculator = new Calculator();
+		calculator.setOperationsPath("../lib/SuperCalculator/operations");
+		calculator.loadOperations();
+
+		assertThrows(NumberFormatException.class,
+						() -> calculator.execute("divide", "b", "a"));
+	}
 }
