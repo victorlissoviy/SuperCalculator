@@ -6,3 +6,4 @@ build
 
 # Ignore
 out
+lib/**/*.jar
