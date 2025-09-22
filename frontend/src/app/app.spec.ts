@@ -282,9 +282,6 @@ describe("App", () => {
 		fixture.detectChanges();
 		await fixture.whenStable();
 
-		fixture.detectChanges();
-		await fixture.whenStable();
-
 		expect(result.value).toBe("12");
 		expect(component.operation).toBe("");
 		expect(component.a).toBe("12");
@@ -473,7 +470,7 @@ describe("App", () => {
 
 		const calcResponse: CalcResponse = {
 			result: "-25"
-		}
+		};
 
 		let req = httpMock.expectOne(baseUrl + "/calc/execute");
 		expect(req.request.method).toBe("POST");
@@ -529,5 +526,75 @@ describe("App", () => {
 		pointButton.click();
 		expect(component.input).toBe("1.");
 		expect(component.operation).toBe("");
-	})
+	});
+
+	it("multiply plus number", async () => {
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		const zeroButton = getButton("0");
+		const oneButton = getButton("1");
+		const fiveButton = getButton("5");
+		const plusButton = getButton("plus");
+
+		fiveButton.click();
+		zeroButton.click();
+
+		plusButton.click();
+		expect(component.input).toBe("50");
+		expect(component.operation).toBe("plus");
+		expect(component.a).toBe("50");
+
+		fiveButton.click();
+		expect(component.input).toBe("5");
+
+		plusButton.click();
+
+		let response: CalcResponse = {
+			result: "55"
+		};
+
+		let req = httpMock.expectOne(baseUrl + "/calc/execute");
+		expect(req.request.method).toBe("POST");
+		expect(req.request.body).toEqual({
+			operation: "plus",
+			a: "50",
+			b: "5"
+		});
+		req.flush(response);
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+		expect(component.input).toBe("55");
+		expect(component.operation).toBe("plus");
+
+		oneButton.click();
+		zeroButton.click();
+
+		expect(component.operation).toBe("plus");
+		expect(component.a).toBe("55");
+		expect(component.input).toBe("10");
+
+		plusButton.click();
+
+		response = {
+			result: "65"
+		};
+
+		req = httpMock.expectOne(baseUrl + "/calc/execute");
+		expect(req.request.method).toBe("POST");
+		expect(req.request.body).toEqual({
+			operation: "plus",
+			a: "55",
+			b: "10"
+		});
+		req.flush(response);
+
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		expect(component.input).toBe("65");
+		expect(component.operation).toBe("plus");
+		expect(component.a).toBe("65");
+	});
 });

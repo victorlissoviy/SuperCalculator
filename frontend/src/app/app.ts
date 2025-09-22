@@ -82,6 +82,7 @@ export class App {
 					let clearedResult = clearResult(response.result);
 					this.setInput(clearedResult);
 					this.a = clearedResult;
+					this.clearBeforeInput = true;
 				},
 				error: error => {
 					alert(error.error);
@@ -92,11 +93,6 @@ export class App {
 	}
 
 	selectOperation(op: string) {
-		if (op === "-" && this.clearBeforeInput) {
-			this.press(op);
-			return;
-		}
-
 		if (this.operation !== "" && this.getInput() !== "0" && this.a !== "0") {
 			this.equals();
 		}
