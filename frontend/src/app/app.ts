@@ -21,52 +21,42 @@ export class App {
 	operation: string = "";
 	a: string = "0";
 	clearBeforeInput: boolean = false;
-	afterEnter: boolean = false;
 
 	constructor(readonly api: CalcApi) {}
 
 	press(value: string): void {
-		if (this.input === "0" && /\d/.test(value)) {
-			this.input = value;
+		let input = this.getInput();
+		if (input === "0" && /\d/.test(value)) {
+			this.setInput(value);
 			this.clearBeforeInput = false;
 			return;
 		}
-		if (value === "." && this.input.includes(".")
-			&& !this.clearBeforeInput) {
-			return;
-		}
 
-		if (this.clearBeforeInput) {
-			this.input = "0";
-			this.clearBeforeInput = false;
-		}
-
-		if (this.input === "0" || this.input === "-0") {
+		if (input === "0" || input === "-0") {
 			if (value === ".") {
-				this.input += ".";
+				this.addPoint();
 			} else {
-				this.input = this.input.replace("0", value);
+				this.setInput(input.replace("0", value));
 			}
 		} else {
-			this.input += value;
+			this.addNumber(value);
 		}
-
-		this.afterEnter = false;
 	}
 
 	clear(): void {
-		this.input = "0";
+		this.setInput("0");
 		this.operation = "";
 		this.a = "0";
 		this.clearBeforeInput = false;
 	}
 
 	backspace(): void {
-		if (this.input.length <= 1) {
-			this.input = "0";
+		let input = this.getInput();
+		if (input.length <= 1) {
+			this.setInput("0");
 			return;
 		}
-		this.input = this.input.slice(0, -1);
+		this.setInput(input.slice(0, -1));
 	}
 
 	equals(): void {
@@ -86,13 +76,12 @@ export class App {
 			return result;
 		}
 
-		this.api.execute(this.operation, this.a, this.input)
+		this.api.execute(this.operation, this.a, this.getInput())
 			.subscribe({
 				next: response => {
 					let clearedResult = clearResult(response.result);
-					this.input = clearedResult;
+					this.setInput(clearedResult);
 					this.a = clearedResult;
-					this.clearBeforeInput = true;
 				},
 				error: error => {
 					alert(error.error);
@@ -100,7 +89,6 @@ export class App {
 				}
 			});
 		this.operation = "";
-		this.afterEnter = true;
 	}
 
 	selectOperation(op: string) {
@@ -109,14 +97,13 @@ export class App {
 			return;
 		}
 
-		if (this.operation !== "" && this.input !== "0" && this.a !== "0") {
+		if (this.operation !== "" && this.getInput() !== "0" && this.a !== "0") {
 			this.equals();
 		}
 
 		this.operation = op;
-		this.a = this.input;
+		this.a = this.getInput();
 		this.clearBeforeInput = true;
-		this.afterEnter = false;
 	}
 
 	validInput(event: Event) {
@@ -126,7 +113,7 @@ export class App {
 		cleanedValue = this.clearPoint(cleanedValue);
 
 		inputElement.value = cleanedValue;
-		this.input = cleanedValue;
+		this.setInput(cleanedValue);
 	}
 
 	/**
@@ -166,42 +153,82 @@ export class App {
 
 	@HostListener("window:keydown", ["$event"])
 	onKeyDown(event: KeyboardEvent) {
-		if (/^[fF]\d{1,2}$/.test(event.key)) {
+		let eventKey = event.key;
+		if (/^[fF]\d{1,2}$/.test(eventKey)) {
 			return;
 		}
 
-		if (/^[\d.]/.test(event.key)) {
-			this.press(event.key);
+		if (/^\d$/.test(eventKey)) {
+			this.press(eventKey);
+		} else if (eventKey === ".") {
+			this.addPoint();
 		}
 
-		let key = Operation[event.key];
+		let key = Operation[eventKey];
 		if (key != null) {
 			this.selectOperation(key);
 		}
 
-		if (event.key === "Enter") {
+		if (eventKey === "Enter") {
 			this.equals();
 		}
 
-		if (event.key === "Backspace") {
+		if (eventKey === "Backspace") {
 			this.backspace();
 		}
 
-		if (event.key === "Escape" || event.key === "Delete") {
+		if (eventKey === "Escape" || eventKey === "Delete") {
 			this.clear();
 		}
 	}
 
 	changeSign() {
 		if (this.clearBeforeInput) {
-			this.input = "0";
+			this.setInput("0");
 			this.clearBeforeInput = false;
 		}
-		if (this.input.startsWith("-")) {
-			this.input = this.input.slice(1);
+		let input = this.getInput();
+		if (input.startsWith("-")) {
+			this.setInput(input.slice(1));
 		} else {
-			this.input = "-" + this.input;
+			this.setInput("-" + input);
 		}
+	}
+
+	setInput(value: string) {
+		if(this.clearBeforeInput) {
+			this.clearBeforeInput = false;
+		}
+		this.input = value;
+	}
+
+	addNumber(value: string) {
+		if(this.clearBeforeInput) {
+			this.input = "";
+			this.clearBeforeInput = false;
+		}
+		this.input += value;
+	}
+
+	getInput() {
+		return this.input;
+	}
+
+	addPoint() {
+		let input = this.getInput();
+
+		if (this.clearBeforeInput) {
+			this.setInput("0");
+			input = this.getInput();
+			this.clearBeforeInput = false;
+		}
+
+		if (input.includes(".")) {
+			return;
+		}
+
+		input += ".";
+		this.setInput(input);
 	}
 }
 
@@ -209,11 +236,6 @@ export class App {
  * Operations keys that indicate mathematical operations
  */
 const Operation: Record<string, string> = {
-	"plus": "+",
-	"minus": "-",
-	"multi": "*",
-	"divide": "/",
-
 	"+": "plus",
 	"-": "minus",
 	"*": "multi",

@@ -512,5 +512,22 @@ describe("App", () => {
 		expect(component.a).toBe("75");
 		expect(component.operation).toBe("plus");
 	});
-});
 
+	it("should decimal point", async () => {
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		const oneButton = getButton("1");
+		const pointButton = getButton(".");
+
+		oneButton.click();
+		pointButton.click();
+
+		expect(component.input).toBe("1.");
+		expect(component.operation).toBe("");
+
+		pointButton.click();
+		expect(component.input).toBe("1.");
+		expect(component.operation).toBe("");
+	})
+});
