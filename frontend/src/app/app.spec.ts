@@ -488,5 +488,29 @@ describe("App", () => {
 		expect(component.a).toBe("-25");
 		expect(component.input).toBe("-25");
 	});
+
+	it("multiply enter equal", async () => {
+		fixture.detectChanges();
+		await fixture.whenStable();
+
+		const fiveButton = getButton("5");
+		const sevenButton = getButton("7");
+		const equalButton = getButton("=");
+		const plusButton = getButton("plus");
+
+		sevenButton.click();
+		fiveButton.click();
+		plusButton.click();
+
+		expect(component.input).toBe("75");
+		expect(component.a).toBe("75");
+		expect(component.operation).toBe("plus");
+
+		equalButton.click();
+
+		expect(component.input).toBe("75");
+		expect(component.a).toBe("75");
+		expect(component.operation).toBe("plus");
+	});
 });
 

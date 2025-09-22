@@ -70,7 +70,7 @@ export class App {
 	}
 
 	equals(): void {
-		if (this.operation === "" || this.a === "0") {
+		if (this.operation === "" || this.a === "0" || this.clearBeforeInput) {
 			return;
 		}
 
@@ -166,18 +166,17 @@ export class App {
 
 	@HostListener("window:keydown", ["$event"])
 	onKeyDown(event: KeyboardEvent) {
+		if (/^[fF]\d{1,2}$/.test(event.key)) {
+			return;
+		}
+
 		if (/^[\d.]/.test(event.key)) {
 			this.press(event.key);
 		}
 
 		let key = Operation[event.key];
-
 		if (key != null) {
-			if (key === "minus" && this.clearBeforeInput && !this.afterEnter) {
-				this.selectOperation("-");
-			} else {
-				this.selectOperation(key);
-			}
+			this.selectOperation(key);
 		}
 
 		if (event.key === "Enter") {
