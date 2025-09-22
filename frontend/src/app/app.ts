@@ -35,29 +35,23 @@ export class App {
 			&& !this.clearBeforeInput) {
 			return;
 		}
+
 		if (this.clearBeforeInput) {
-			this.processPontValue(value);
-			this.processMinusValue(value);
+			this.input = "0";
 			this.clearBeforeInput = false;
 		}
-		this.input += value;
-		this.afterEnter = false;
-	}
 
-	private processPontValue(value: string) {
-		if (value === ".") {
-			this.input = "0";
-		} else {
-			this.input = "";
-		}
-	}
-
-	private processMinusValue(value: string) {
-		if (value === "-") {
-			if (this.input.startsWith("-")) {
-				this.input = this.input.slice(1);
+		if (this.input === "0" || this.input === "-0") {
+			if (value === ".") {
+				this.input += ".";
+			} else {
+				this.input = this.input.replace("0", value);
 			}
+		} else {
+			this.input += value;
 		}
+
+		this.afterEnter = false;
 	}
 
 	clear(): void {
@@ -196,6 +190,18 @@ export class App {
 
 		if (event.key === "Escape" || event.key === "Delete") {
 			this.clear();
+		}
+	}
+
+	changeSign() {
+		if (this.clearBeforeInput) {
+			this.input = "0";
+			this.clearBeforeInput = false;
+		}
+		if (this.input.startsWith("-")) {
+			this.input = this.input.slice(1);
+		} else {
+			this.input = "-" + this.input;
 		}
 	}
 }

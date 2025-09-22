@@ -95,18 +95,7 @@ describe("App", () => {
 		const input = compiled.querySelector(".main-input") as HTMLInputElement;
 		expect(input.value).toBe("0");
 
-		function getPointButton(): HTMLButtonElement {
-			const buttons = compiled.querySelectorAll(".btn");
-			for (let i = 0 ; i < buttons.length ; i++) {
-				const button = buttons[i] as HTMLButtonElement;
-				if (button.textContent === ".") {
-					return button;
-				}
-			}
-			throw new Error("Point button not found");
-		}
-
-		const pointButton = getPointButton();
+		const pointButton = getButton(".");
 
 		pointButton.click();
 		fixture.detectChanges();
@@ -458,6 +447,7 @@ describe("App", () => {
 		const fiveButton = getButton("5");
 		const multiButton = getButton("multi");
 		const equalButton = getButton("=");
+		const plusMinusButton = getButton("+/-");
 
 		fiveButton.click();
 		expect(component.input).toBe("5");
@@ -466,13 +456,10 @@ describe("App", () => {
 		expect(component.input).toBe("5");
 		expect(component.operation).toBe("multi");
 
-		const minusEvent = new KeyboardEvent("keydown", {key: "-"});
-		window.dispatchEvent(minusEvent);
-
+		plusMinusButton.click();
 		fixture.detectChanges();
-		await fixture.whenStable();
 
-		expect(component.input).toBe("-");
+		expect(component.input).toBe("-0");
 		expect(component.operation).toBe("multi");
 
 		fiveButton.click();

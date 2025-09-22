@@ -21,6 +21,7 @@
 			<button type="button" class="btn" (click)="press('4')" id="4">4</button>
 			<button type="button" class="btn" (click)="press('5')" id="5">5</button>
 			<button type="button" class="btn" (click)="press('6')" id="6">6</button>
+			<button type="button" class="btn action clear" (click)="clear()" id="C">C</button>
 
 			<!-- Row 3 -->
 			<button type="button" class="btn" (click)="press('1')" id="1">1</button>
@@ -30,9 +31,7 @@
 
 			<button type="button" class="btn" (click)="press('0')" id="0">0</button>
 			<button type="button" class="btn" (click)="press('.')" id=".">.</button>
-			<button type="button" class="btn action clear" (click)="clear()"
-			        id="C">C
-			</button>
+			<button type="button" class="btn" (click)="changeSign()" id="+/-">+/-</button>
 		</div>
 	</div>
 
