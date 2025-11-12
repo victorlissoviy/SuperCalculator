@@ -64,18 +64,6 @@ export class App {
 			return;
 		}
 
-		function clearResult(result: string) {
-			if (result.includes(".")) {
-				while (result.endsWith("0")) {
-					result = result.slice(0, -1);
-				}
-				if (result.endsWith(".")) {
-					result = result.slice(0, -1);
-				}
-			}
-			return result;
-		}
-
 		if (this.getInput() === "0" && this.operation === "divide") {
 			let index = Math.round(Math.random() * divisionByZeroReplies.length);
 			let message = divisionByZeroReplies[index];
@@ -111,7 +99,7 @@ export class App {
 
 	validInput(event: Event) {
 		const inputElement = event.target as HTMLInputElement;
-		let cleanedValue = inputElement.value.replace(/[^-.0-9]/g, "");
+		let cleanedValue = inputElement.value.replaceAll(/[^-.0-9]/g, "");
 		cleanedValue = this.clearMinus(cleanedValue);
 		cleanedValue = this.clearPoint(cleanedValue);
 
@@ -233,6 +221,18 @@ export class App {
 		input += ".";
 		this.setInput(input);
 	}
+}
+
+function clearResult(result: string) {
+	if (result.includes(".")) {
+		while (result.endsWith("0")) {
+			result = result.slice(0, -1);
+		}
+		if (result.endsWith(".")) {
+			result = result.slice(0, -1);
+		}
+	}
+	return result;
 }
 
 /**
