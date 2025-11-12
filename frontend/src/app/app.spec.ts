@@ -577,4 +577,13 @@ describe("App", () => {
 		expect(component.operation).toBe("plus");
 		expect(component.a).toBe("65");
 	});
+
+	it("tooltip show on 42 input", async () => {
+		component.setInput("42");
+		component.processEggs();
+
+		let expected = "42 is the answer to the ultimate question of life, "
+			+ "the universe, and everything.";
+		expect(component.tooltip).toBe(expected);
+	})
 });

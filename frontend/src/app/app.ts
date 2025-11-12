@@ -3,13 +3,15 @@ import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { OperationsList } from "./operations-list/operations-list";
 import { CalcApi } from "./services/calc-api";
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
 	selector: "app-root",
 	imports: [
 		CommonModule,
 		FormsModule,
-		OperationsList
+		OperationsList,
+		MatTooltipModule
 	],
 	templateUrl: "./app.html",
 	styleUrl: "./app.scss",
@@ -21,6 +23,7 @@ export class App {
 	operation: string = "";
 	a: string = "0";
 	clearBeforeInput: boolean = false;
+	tooltip: string = "";
 
 	constructor(readonly api: CalcApi) {}
 
@@ -78,6 +81,7 @@ export class App {
 					this.setInput(clearedResult);
 					this.a = clearedResult;
 					this.clearBeforeInput = true;
+					this.processEggs();
 				},
 				error: error => {
 					alert(error.error);
@@ -220,6 +224,15 @@ export class App {
 
 		input += ".";
 		this.setInput(input);
+	}
+
+	processEggs() {
+		let input = Number(this.getInput());
+
+		if (input === 42) {
+			this.tooltip = "42 is the answer to the ultimate question of life, "
+				+ "the universe, and everything.";
+		}
 	}
 }
 
