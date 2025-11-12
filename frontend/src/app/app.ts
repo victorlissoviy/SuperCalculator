@@ -230,8 +230,7 @@ export class App {
 		let input = Number(this.getInput());
 
 		if (input === 42) {
-			this.tooltip = "42 is the answer to the ultimate question of life, "
-				+ "the universe, and everything.";
+			this.tooltip = "Відповідь на головне питання життя, Всесвіту та всього такого";
 		}
 	}
 }

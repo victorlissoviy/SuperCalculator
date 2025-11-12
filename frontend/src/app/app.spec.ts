@@ -582,8 +582,7 @@ describe("App", () => {
 		component.setInput("42");
 		component.processEggs();
 
-		let expected = "42 is the answer to the ultimate question of life, "
-			+ "the universe, and everything.";
+		let expected = "Відповідь на головне питання життя, Всесвіту та всього такого";
 		expect(component.tooltip).toBe(expected);
 	})
 });
