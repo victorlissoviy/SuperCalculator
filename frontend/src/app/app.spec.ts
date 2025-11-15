@@ -578,11 +578,43 @@ describe("App", () => {
 		expect(component.a).toBe("65");
 	});
 
-	it("tooltip show on 42 input", async () => {
-		component.setInput("42");
-		component.processEggs();
+	it("eggs", () => {
 
-		let expected = "Відповідь на головне питання життя, Всесвіту та всього такого";
-		expect(component.tooltip).toBe(expected);
+		interface Egg {
+			input: string;
+			result: string;
+		}
+
+		function checkEgg(egg:Egg) {
+			component.setInput(egg.input);
+			component.processEggs();
+
+			expect(component.tooltip).toBe(egg.result);
+		}
+
+		const eggs: Egg[] = [
+			{
+				input: "42",
+				result: "Відповідь на головне питання життя, Всесвіту та всього такого"
+			},
+			{input: "3.14", result: "π"},
+			{input: "5318008", result: "BOOBIES"},
+			{input: "58008", result: "BOOBS"},
+			{input: "37047734", result: "hELLOIL"},
+			{input: "53177187714", result: "hILLBILLIES"},
+			{input: "0.7734", result: "hELLO"},
+			{input: "2.71828", result: "e"},
+			{input: "1.618", result: "φ"},
+			{input: "299792458", result: "🌞"},
+			{input: "9.81", result: "🪂"},
+			{input: "404", result: "Not Found"},
+			{input: "1337", result: "leet"},
+			{input: "69", result: "😏"},
+			{input: "0.07", result: "🕶️"},
+			{input: "123456789", result: "Wow, ти реально це ввів 😅"},
+			{input: "73", result: "\"найкраще число\" за Шелдоном Купером"},
+		];
+
+		eggs.forEach(checkEgg);
 	})
 });
