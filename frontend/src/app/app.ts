@@ -1,6 +1,5 @@
 import { Component, HostListener } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
 import { OperationsList } from "./operations-list/operations-list";
 import { CalcApi } from "./services/calc-api";
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -8,11 +7,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
 	selector: "app-root",
 	imports: [
-		CommonModule,
-		FormsModule,
-		OperationsList,
-		MatTooltipModule
-	],
+    FormsModule,
+    OperationsList,
+    MatTooltipModule
+],
 	templateUrl: "./app.html",
 	styleUrl: "./app.scss",
 	standalone: true

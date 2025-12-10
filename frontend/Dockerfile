@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:20 AS builder
+FROM node:22 AS builder
 WORKDIR /app
 COPY . .
 RUN npm install
