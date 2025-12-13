@@ -21,11 +21,11 @@ spec:
         memory: 100Mi
       default:
         ephemeral-storage: 10Gi
-        cpu: "1.5"
+        cpu: "1"
         memory: 500Mi
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: backend
   namespace: calculator
@@ -33,20 +33,33 @@ metadata:
     role: backend
     app: calculator
 spec:
-  automountServiceAccountToken: false
-  nodeName: old-hp
-  containers:
-    - name: backend
-      image: viktorlisovyi/calculator-backend:1.0
-      imagePullPolicy: Always
-      ports:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: backend
+      app: calculator
+  template:
+    metadata:
+      name: backend
+      namespace: calculator
+      labels:
+        role: backend
+        app: calculator
+    spec:
+      automountServiceAccountToken: false
+      nodeName: old-hp
+      containers:
         - name: backend
-          containerPort: 8080
-          protocol: TCP
-  restartPolicy: Always
+          image: viktorlisovyi/calculator-backend:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: backend
+              containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: frontend
   namespace: calculator
@@ -54,17 +67,30 @@ metadata:
     role: frontend
     app: calculator
 spec:
-  automountServiceAccountToken: false
-  nodeName: old-hp
-  containers:
-    - name: frontend
-      image: viktorlisovyi/calculator-frontend:1.0
-      imagePullPolicy: Always
-      ports:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: frontend
+      app: calculator
+  template:
+    metadata:
+      name: frontend
+      namespace: calculator
+      labels:
+        role: frontend
+        app: calculator
+    spec:
+      automountServiceAccountToken: false
+      nodeName: old-hp
+      containers:
         - name: frontend
-          containerPort: 80
-          protocol: TCP
-  restartPolicy: Always
+          image: viktorlisovyi/calculator-frontend:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: frontend
+              containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
