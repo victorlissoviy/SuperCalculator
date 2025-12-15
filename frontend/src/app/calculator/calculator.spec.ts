@@ -6,7 +6,6 @@ import {
 	provideHttpClientTesting
 } from "@angular/common/http/testing";
 import { provideHttpClient } from "@angular/common/http";
-import { App } from "../app";
 import { CalcResponse } from "../interfaces/CalcResponse";
 
 describe("Calculator", () => {
