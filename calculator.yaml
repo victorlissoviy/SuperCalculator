@@ -61,6 +61,40 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: graph
+  namespace: calculator
+  labels:
+    role: graph
+    app: calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: graph
+      app: calculator
+  template:
+    metadata:
+      name: graph
+      namespace: calculator
+      labels:
+        role: graph
+        app: calculator
+    spec:
+      automountServiceAccountToken: false
+      nodeName: old-hp
+      containers:
+        - name: graph
+          image: viktorlisovyi/calculator-graph:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: graph
+              containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: frontend
   namespace: calculator
   labels:
@@ -84,7 +118,7 @@ spec:
       nodeName: old-hp
       containers:
         - name: frontend
-          image: viktorlisovyi/calculator-frontend:1.0
+          image: viktorlisovyi/calculator-frontend:1.1
           imagePullPolicy: Always
           ports:
             - name: frontend
@@ -108,6 +142,24 @@ spec:
       port: 8080
       targetPort: 8080
       nodePort: 30499
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graph
+  namespace: calculator
+  labels:
+    app: calculator
+spec:
+  type: NodePort
+  selector:
+    role: graph
+  ports:
+    - name: backend
+      port: 8080
+      targetPort: 8080
+      nodePort: 31499
       protocol: TCP
 ---
 apiVersion: v1

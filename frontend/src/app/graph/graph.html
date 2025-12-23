@@ -1,0 +1,10 @@
+<div class="func">
+	<p>Введіть функцію</p>
+	<input type="text" [(ngModel)]="input">
+	<button (click)="drawImg()" >Намалювати</button>
+	<br>
+	@if (isImage) {
+		<img [src]="imagePath" alt="Graph" />
+	}
+</div>
+
