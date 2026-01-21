@@ -134,7 +134,7 @@ metadata:
   labels:
     app: calculator
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     role: backend
   ports:
@@ -152,7 +152,7 @@ metadata:
   labels:
     app: calculator
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     role: graph
   ports:
@@ -170,7 +170,7 @@ metadata:
   labels:
     app: calculator
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     role: frontend
   ports:
