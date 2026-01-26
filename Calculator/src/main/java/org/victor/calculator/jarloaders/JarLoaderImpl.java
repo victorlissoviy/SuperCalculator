@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
+import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
@@ -51,7 +52,25 @@ public class JarLoaderImpl implements JarLoader {
 		                           InstantiationException,
 		                           IllegalAccessException {
 			String canonicalPath = this.file.getCanonicalPath();
-			Operation operation = null;
+			Optional<Operation> operation = findOperationInFile(canonicalPath);
+
+			if (operation.isEmpty()) {
+				throw new LoadOperationError(
+					"Not found operation in file " + canonicalPath);
+			}
+
+			return operation.get();
+		}
+
+		private Optional<Operation> findOperationInFile(String canonicalPath)
+		throws
+		IOException,
+		ClassNotFoundException,
+		InstantiationException,
+		IllegalAccessException,
+		InvocationTargetException,
+		NoSuchMethodException {
+			Optional<Operation> result = Optional.empty();
 			try (JarFile jar = new JarFile(canonicalPath)) {
 				String fineMessage = "Loading jar: %s".formatted(canonicalPath);
 				logger.fine(fineMessage);
@@ -60,19 +79,14 @@ public class JarLoaderImpl implements JarLoader {
 				while (entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 
-					operation = getOperationFromEntity(entry);
+					Operation operation = getOperationFromEntity(entry);
 					if (operation != null) {
+						result = Optional.of(operation);
 						break;
 					}
 				}
 			}
-
-			if (operation == null) {
-				throw new LoadOperationError(
-					"Not found operation in file " + canonicalPath);
-			}
-
-			return operation;
+			return result;
 		}
 
 		private Operation getOperationFromEntity(JarEntry entry) throws

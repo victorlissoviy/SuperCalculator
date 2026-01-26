@@ -28,8 +28,8 @@ public class Calculator {
 		this.checkDir(dir);
 		File[] files = this.getJarFiles(dir);
 
-		JarsLoader jarLoader = new JarsLoaderImpl();
-		this.operations = jarLoader.loadJars(files);
+		JarsLoader jarsLoader = new JarsLoaderImpl();
+		this.operations = jarsLoader.loadJars(files);
 	}
 
 	private void checkDir(File dir) {
