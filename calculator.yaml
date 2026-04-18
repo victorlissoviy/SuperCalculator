@@ -134,14 +134,12 @@ metadata:
   labels:
     app: calculator
 spec:
-  type: LoadBalancer
   selector:
     role: backend
   ports:
     - name: backend
       port: 8080
       targetPort: 8080
-      nodePort: 30499
       protocol: TCP
 ---
 apiVersion: v1
@@ -152,14 +150,12 @@ metadata:
   labels:
     app: calculator
 spec:
-  type: LoadBalancer
   selector:
     role: graph
   ports:
     - name: backend
       port: 8080
       targetPort: 8080
-      nodePort: 31499
       protocol: TCP
 ---
 apiVersion: v1
@@ -170,12 +166,47 @@ metadata:
   labels:
     app: calculator
 spec:
-  type: LoadBalancer
   selector:
     role: frontend
   ports:
     - name: frontend
       port: 80
       targetPort: 80
-      nodePort: 31999
       protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend
+  namespace: calculator
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+          - path: /graph
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  # Важливо: цей ConfigMap має бути в тому ж namespace,
+  # де встановлений ваш Ingress Controller (часто це ingress-nginx)
+  namespace: ingress-nginx
+data:
+  # Формат: "зовнішній_порт": "namespace/ім'я_сервісу:внутрішній_порт"
+  "8090": "calculator/backend:8080"
+  "8000": "calculator/graph:8080"
