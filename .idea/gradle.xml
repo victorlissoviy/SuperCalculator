@@ -5,7 +5,6 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$USER_HOME$/.sdkman/candidates/gradle/current" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -13,6 +12,7 @@
             <option value="$PROJECT_DIR$/CalculatorTest" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/operations" />
+            <option value="$PROJECT_DIR$/operations/RID" />
             <option value="$PROJECT_DIR$/operations/divide" />
             <option value="$PROJECT_DIR$/operations/minus" />
             <option value="$PROJECT_DIR$/operations/multi" />

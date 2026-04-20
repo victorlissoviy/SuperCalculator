@@ -6,5 +6,6 @@ include("operations:plus")
 include("operations:minus")
 include("operations:multi")
 include("operations:divide")
+include("operations:RID")
 
 include("backend")

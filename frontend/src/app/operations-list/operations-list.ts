@@ -15,7 +15,8 @@ export class OperationsList implements OnInit {
 		"plus": "+",
 		"minus": "-",
 		"multi": "*",
-		"divide": "/"
+		"divide": "/",
+		"RID": "//"
 	};
 
 	constructor(readonly api: CalcApi) {}

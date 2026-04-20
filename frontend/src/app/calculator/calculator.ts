@@ -252,7 +252,8 @@ const Operation: Record<string, string> = {
 	"+": "plus",
 	"-": "minus",
 	"*": "multi",
-	"/": "divide"
+	"/": "divide",
+	"//": "RID"
 };
 
 const eggs: Record<number, string> = {

@@ -23,6 +23,7 @@ tasks.test {
 		":operations:plus:copyJar",
 		":operations:minus:copyJar",
 		":operations:multi:copyJar",
-		":operations:divide:copyJar"
+		":operations:divide:copyJar",
+		":operations:RID:copyJar"
 	)
 }
