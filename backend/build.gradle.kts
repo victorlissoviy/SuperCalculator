@@ -35,4 +35,11 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 	jvmArgs("-javaagent:${mockitoAgent.asPath}")
+
+	dependsOn(
+		":operations:plus:copyJar",
+		":operations:minus:copyJar",
+		":operations:multi:copyJar",
+		":operations:divide:copyJar"
+	)
 }

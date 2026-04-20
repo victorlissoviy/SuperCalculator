@@ -30,11 +30,3 @@ tasks.register<Copy>("copyJar") {
 	from(tasks.named<Jar>("jar").get().archiveFile)
 	into("../../lib/SuperCalculator/operations")
 }
-
-tasks.named("build") {
-	dependsOn("copyJar")
-}
-
-tasks.named("test") {
-	dependsOn("copyJar")
-}
