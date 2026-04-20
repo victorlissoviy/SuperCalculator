@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { CalcRequest } from "../interfaces/CalcRequest";
 import { CalcResponse } from "../interfaces/CalcResponse";
+import { environment } from "../../environments/environment";
 
 @Injectable({
 	providedIn: "root"
 })
 export class CalcApi {
-	baseUrl: string = "http://localhost:8080";
+	baseUrl: string = environment.baseApiUrl;
 
 	constructor(private readonly http: HttpClient) {}
 

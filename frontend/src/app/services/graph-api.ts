@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 @Injectable({
 	providedIn: "root"
 })
 export class GraphApi {
-	private readonly baseUrl: string = "http://localhost:8080";
+	private readonly baseUrl: string = environment.baseGraphUrl;
 
 	constructor(private readonly http: HttpClient) {}
 

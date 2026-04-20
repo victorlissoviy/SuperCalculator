@@ -8,12 +8,13 @@ import {
 } from "@angular/common/http/testing";
 import { CalcResponse } from "../interfaces/CalcResponse";
 import { CalcRequest } from "../interfaces/CalcRequest";
+import { environment } from "../../environments/environment";
 
 describe("CalcApi", () => {
 	let service: CalcApi;
 	let httpMock: HttpTestingController;
 
-	let baseUrl = "http://localhost:8080";
+	let baseUrl = environment.baseApiUrl;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({

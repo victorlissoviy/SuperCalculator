@@ -7,6 +7,7 @@ import {
 } from "@angular/common/http/testing";
 import { provideHttpClient } from "@angular/common/http";
 import { CalcResponse } from "../interfaces/CalcResponse";
+import { environment } from "../../environments/environment";
 
 describe("Calculator", () => {
 	let component: Calculator;
@@ -14,7 +15,7 @@ describe("Calculator", () => {
 	let compiled: HTMLElement;
 	let httpMock: HttpTestingController;
 
-	const baseUrl = "http://localhost:8080";
+	const baseUrl = environment.baseApiUrl;
 	const mockResponse: string[] = ["plus", "minus", "multi", "divide"];
 
 	beforeEach(async () => {

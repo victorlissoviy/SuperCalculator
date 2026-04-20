@@ -6,6 +6,7 @@ import {
 	provideHttpClientTesting
 } from "@angular/common/http/testing";
 import { provideHttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 describe("OperationsList", () => {
 	let fixture: ComponentFixture<OperationsList>;
@@ -14,7 +15,7 @@ describe("OperationsList", () => {
 
 	let httpMock: HttpTestingController;
 
-	const baseUrl = "http://localhost:8080";
+	const baseUrl = environment.baseApiUrl;
 	const mockResponse: string[] = ["plus", "minus", "multi", "divide"];
 
 	beforeEach(async () => {
