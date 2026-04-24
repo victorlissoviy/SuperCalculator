@@ -198,15 +198,3 @@ spec:
                 name: frontend
                 port:
                   number: 80
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: tcp-services
-  # Важливо: цей ConfigMap має бути в тому ж namespace,
-  # де встановлений ваш Ingress Controller (часто це ingress-nginx)
-  namespace: ingress-nginx
-data:
-  # Формат: "зовнішній_порт": "namespace/ім'я_сервісу:внутрішній_порт"
-  "8090": "calculator/backend:8080"
-  "8000": "calculator/graph:8080"
