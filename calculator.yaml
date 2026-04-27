@@ -18,11 +18,11 @@ spec:
       defaultRequest:
         ephemeral-storage: 1Gi
         cpu: "0.01"
-        memory: 10Mi
+        memory: 32Mi
       default:
         ephemeral-storage: 10Gi
         cpu: "1"
-        memory: 200Mi
+        memory: 256Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
